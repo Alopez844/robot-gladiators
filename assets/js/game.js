@@ -101,7 +101,16 @@ var fightOrSkip = function() {
 
 // fight function (now with parameter for enemy's name)
 var fight = function(enemy) {
+// keep track of who goes first
+var isPlayerTurn = true;
+
+// randomly change turn order
+  if(Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
+
   while (playerInfo.health > 0 && enemy.health > 0) {
+    if (isPlayerTurn) {
     // ask player is they'd like to fight or skip using FightOrSkip function
     if (fightOrSkip()) {
       // if true, leave fight by breaking loop
@@ -127,9 +136,10 @@ var fight = function(enemy) {
     } else {
       window.alert(enemy.name + ' still has ' + enemy.health + ' health left.');
     }
-
-    // remove players's health by subtracting the amount set in the enemy.attack variable
+    // player gets attacked first
+  } else {
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
+     // remove players's health by subtracting the amount set in the enemy.attack variable
     playerInfo.health = Math.max(0, playerInfo.health - damage);
     console.log(
       enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
@@ -144,6 +154,9 @@ var fight = function(enemy) {
       window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
     }
   }
+  // switch turn order for next round
+  isPlayerTurn = !isPlayerTurn;
+}
 };
 
 // function to start a new game
